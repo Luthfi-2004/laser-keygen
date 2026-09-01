@@ -82,10 +82,18 @@
             .dark .datatable-sorter::after { border-bottom-color: #a1a1aa !important; opacity: 0.6; }
             
             /* Center Headers */
-            #historyTable th { text-align: center !important; }
-            .datatable-sorter {
+            #historyTable th:not(:last-child) { text-align: center !important; }
+            #historyTable th:last-child { text-align: justify !important; }
+            
+            #historyTable th:not(:last-child) .datatable-sorter {
                 display: flex;
                 justify-content: center;
+                align-items: center;
+                padding-right: 1.5rem !important; /* space for sort arrows */
+            }
+            #historyTable th:last-child .datatable-sorter {
+                display: flex;
+                justify-content: flex-start;
                 align-items: center;
                 padding-right: 1.5rem !important; /* space for sort arrows */
             }
@@ -220,7 +228,7 @@
                         <td class="px-4 py-4 text-center">
                             ${item.expiry_date}
                         </td>
-                        <td class="px-4 py-4 text-center font-mono text-xs text-gray-400 break-all">
+                        <td class="px-4 py-4 text-justify font-mono text-xs text-gray-400 break-all">
                             ${item.passkey}
                         </td>
                     `;
