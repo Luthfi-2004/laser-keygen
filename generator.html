@@ -227,7 +227,13 @@
                                 <span id="displayDate" class="text-sm font-mono text-gray-800 dark:text-zinc-200 font-bold">-</span>
                             </div>
                             <div class="p-5">
-                                <span class="text-xs text-gray-500 dark:text-zinc-500 font-semibold uppercase tracking-wide block mb-3">Generated Serial Data</span>
+                                <div class="flex justify-between items-center mb-3">
+                                    <span class="text-xs text-gray-500 dark:text-zinc-500 font-semibold uppercase tracking-wide block">Generated Serial Data</span>
+                                    <button onclick="copySerial()" id="copyBtn" class="text-xs text-accent-600 hover:text-accent-700 dark:text-accent-400 dark:hover:text-accent-300 font-medium flex items-center gap-1 transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                        <span>Copy</span>
+                                    </button>
+                                </div>
                                 <div id="displayPasskey" class="text-xs font-mono text-gray-700 dark:text-zinc-400 break-all bg-white dark:bg-dark-900 p-4 rounded-lg border border-gray-200 dark:border-white/5 shadow-sm">
                                     -
                                 </div>
@@ -358,6 +364,22 @@
             errorDiv.textContent = msg;
             errorDiv.classList.remove('hidden');
             resultDiv.classList.remove('hidden');
+        }
+
+        async function copySerial() {
+            const text = document.getElementById('displayPasskey').textContent;
+            if (text && text !== '-') {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    const btnSpan = document.querySelector('#copyBtn span');
+                    btnSpan.textContent = 'Copied!';
+                    setTimeout(() => {
+                        btnSpan.textContent = 'Copy';
+                    }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                }
+            }
         }
     </script>
 </body>
