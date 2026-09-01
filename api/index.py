@@ -3,8 +3,8 @@ from flask_cors import CORS
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 import binascii
-import io
 import os
+import traceback
 from supabase import create_client, Client
 
 app = Flask(__name__)
@@ -38,11 +38,10 @@ def decrypt_passkey(passkey_hex):
 @app.route('/', defaults={'path': ''}, methods=['GET', 'POST'])
 @app.route('/<path:path>', methods=['GET', 'POST'])
 def catch_all(path):
-    full_path = request.path
     if request.method == 'OPTIONS':
         return '', 200
         
-    if 'generate' in full_path:
+    if path == 'api/generate':
         data = request.get_json()
         if not data:
             return jsonify({'error': 'JSON required'}), 400
@@ -63,8 +62,25 @@ def catch_all(path):
             return jsonify({'error': 'MB atau PASSKEY harus diisi'}), 400
 
         try:
+            # 1. Generate Key
             ciphertext = encrypt_serial(mb, expiry_date)
             hex_result = binascii.hexlify(ciphertext).decode().upper()
+            
+            # 2. Save to Database ATOMICALLY
+            if supabase:
+                try:
+                    supabase.table('activations').insert({
+                        'mb': mb,
+                        'passkey': hex_result,
+                        'expiry_date': expiry_date
+                    }).execute()
+                except Exception as db_err:
+                    print(f"Supabase error: {db_err}")
+                    return jsonify({'error': f'Sistem gagal mencatat ke database. Harap periksa koneksi. ({str(db_err)})'}), 500
+            else:
+                return jsonify({'error': 'Sistem Database (Supabase) belum dikonfigurasi. Penarikan kunci dibatalkan.'}), 500
+
+            # 3. Return Success
             return jsonify({
                 'mb': mb,
                 'date': expiry_date,
@@ -72,56 +88,40 @@ def catch_all(path):
                 'message': 'Success'
             })
         except Exception as e:
+            traceback.print_exc()
             return jsonify({'error': str(e)}), 500
 
-    elif 'download' in full_path:
-        data = request.get_json()
-        if not data:
-            return jsonify({'error': 'JSON required'}), 400
-        mb = data.get('mb')
-        passkey = data.get('passkey')
-        expiry_date = data.get('date', '2099/12/31')
-
-        if passkey:
-            try:
-                plaintext = decrypt_passkey(passkey)
-                mb = plaintext.split('|')[0]
-            except Exception as e:
-                return jsonify({'error': str(e)}), 400
-
-        ciphertext = encrypt_serial(mb, expiry_date)
-        return send_file(
-            io.BytesIO(ciphertext),
-            mimetype='application/octet-stream',
-            as_attachment=True,
-            download_name='serial.dat'
-        )
-
-    elif 'save' in full_path:
+    elif path == 'api/history':
         if not supabase:
             return jsonify({'error': 'Supabase not configured'}), 500
-        data = request.get_json()
-        if not data:
-            return jsonify({'error': 'JSON required'}), 400
-
-        mb = data.get('mb')
-        passkey_hex = data.get('passkey_hex')
-        expiry_date = data.get('date')
-
-        if not mb or not passkey_hex or not expiry_date:
-            return jsonify({'error': 'Missing fields'}), 400
-
+            
         try:
-            result = supabase.table('activations').insert({
-                'mb': mb,
-                'passkey': passkey_hex,
-                'expiry_date': expiry_date
-            }).execute()
-            return jsonify({'message': 'Saved successfully'}), 200
+            response = supabase.table('activations').select('*').order('created_at', desc=True).limit(50).execute()
+            return jsonify({'data': response.data})
         except Exception as e:
             return jsonify({'error': str(e)}), 500
 
-    return jsonify({'error': 'Not Found', 'path': full_path}), 404
+    elif path == 'api/dashboard':
+        if not supabase:
+            return jsonify({'error': 'Supabase not configured'}), 500
+            
+        try:
+            # Get latest 3 activities
+            recent = supabase.table('activations').select('*').order('created_at', desc=True).limit(3).execute()
+            # Since Supabase python client doesn't support easy count(*) without exact match, 
+            # we'll fetch ID only and count in python for a small scale app (or use count=exact)
+            count_res = supabase.table('activations').select('id', count='exact').execute()
+            total_count = count_res.count if hasattr(count_res, 'count') and count_res.count is not None else len(count_res.data)
+            
+            return jsonify({
+                'total': total_count,
+                'recent': recent.data,
+                'status': 'Online'
+            })
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
+    return jsonify({'error': 'Endpoint Not Found', 'path': path}), 404
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

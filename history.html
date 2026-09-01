@@ -94,9 +94,27 @@
                         <p class="text-gray-500 dark:text-zinc-400 text-sm">View history of generated licenses.</p>
                     </div>
 
-                    <!-- Placeholder for the Data Table -->
-                    <div class="p-8 text-center border-2 border-dashed border-gray-300 dark:border-zinc-700 rounded-xl text-gray-400 dark:text-zinc-500 text-sm">
-                        [ Database Table will appear here ]
+                    <!-- Data Table -->
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-dark-900/50 dark:text-gray-400 border-b border-gray-200 dark:border-white/10">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 rounded-tl-lg">Date</th>
+                                    <th scope="col" class="px-6 py-3">Hardware ID</th>
+                                    <th scope="col" class="px-6 py-3">Expiry Date</th>
+                                    <th scope="col" class="px-6 py-3 rounded-tr-lg">Generated Key</th>
+                                </tr>
+                            </thead>
+                            <tbody id="historyTableBody">
+                                <!-- Loading state -->
+                                <tr>
+                                    <td colspan="4" class="px-6 py-8 text-center text-gray-500 dark:text-zinc-500">
+                                        <svg class="w-6 h-6 animate-spin mx-auto mb-2 text-accent-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                                        Loading data...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
@@ -108,5 +126,59 @@
     </main>
 
     <script src="assets/js/layout.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const tbody = document.getElementById('historyTableBody');
+            try {
+                const res = await fetch('/api/history');
+                const result = await res.json();
+                
+                if (result.error) throw new Error(result.error);
+                
+                if (!result.data || result.data.length === 0) {
+                    tbody.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="px-6 py-8 text-center text-gray-500 dark:text-zinc-500 border-b border-gray-200 dark:border-white/5">
+                                No activation records found.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tbody.innerHTML = '';
+                result.data.forEach(item => {
+                    const dateObj = new Date(item.created_at);
+                    const formattedDate = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    
+                    const tr = document.createElement('tr');
+                    tr.className = 'bg-white dark:bg-transparent border-b border-gray-200 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors';
+                    tr.innerHTML = `
+                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                            ${formattedDate}
+                        </td>
+                        <td class="px-6 py-4 font-mono text-xs">
+                            ${item.mb}
+                        </td>
+                        <td class="px-6 py-4">
+                            ${item.expiry_date}
+                        </td>
+                        <td class="px-6 py-4 font-mono text-xs text-gray-400 break-all max-w-xs">
+                            ${item.passkey}
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" class="px-6 py-8 text-center text-red-500 border-b border-gray-200 dark:border-white/5">
+                            Failed to load history: ${err.message}
+                        </td>
+                    </tr>
+                `;
+            }
+        });
+    </script>
 </body>
 </html>

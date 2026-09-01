@@ -340,16 +340,6 @@
                 downloadBtn.classList.remove('hidden');
                 downloadBtn.classList.add('flex');
 
-                fetch('/api/save', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        mb: info.mb,
-                        passkey_hex: info.passkey_hex,
-                        date: info.date
-                    })
-                }).catch(e => console.warn('Sync failed:', e));
-
             } catch (e) {
                 showError('Operation Failed: ' + e.message);
             } finally {
