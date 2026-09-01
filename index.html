@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
@@ -269,8 +269,7 @@
                 const info = await infoResponse.json();
                 if (info.error) throw new Error(info.error);
 
-                const byteArray = hexToBytes(info.passkey_hex);
-                const blob = new Blob([byteArray], { type: 'application/octet-stream' });
+                const blob = new Blob([info.passkey_hex], { type: 'text/plain' });
                 const url = URL.createObjectURL(blob);
 
                 document.getElementById('displayMb').textContent = info.mb;
