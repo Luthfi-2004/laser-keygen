@@ -152,9 +152,9 @@
         <div id="layout-topbar" data-title="Workspace / Generator"></div>
 
         <!-- Content Area -->
-        <div class="flex-1 overflow-y-auto p-4 sm:p-8 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-100 to-gray-50 dark:from-dark-800 dark:to-dark-900">
+        <div class="flex-1 overflow-y-auto p-4 sm:p-8 md:p-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-100 to-gray-50 dark:from-dark-800 dark:to-dark-900">
             
-            <div class="max-w-2xl mx-auto w-full">
+            <div class="max-w-4xl mx-auto w-full">
                 
                 <!-- Page Title -->
                 <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
@@ -188,32 +188,34 @@
                         <button id="modePasskey" onclick="setMode('passkey')" class="flex-1 py-2 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white shadow-sm border border-gray-200 dark:border-white/10">
                             Passkey Decrypt
                         </button>
-                        <button id="modeManual" onclick="setMode('manual')" class="flex-1 py-2 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 text-gray-500 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300">
+                        <button id="modeManual" onclick="setMode('manual')" class="flex-1 py-2 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 text-gray-500 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300 border border-transparent">
                             Manual Override
                         </button>
                     </div>
 
-                    <div class="space-y-5">
-                        <div id="groupPasskey" class="transition-all duration-300">
-                            <label class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide mb-2">Encrypted Payload (Passkey)</label>
-                            <textarea id="passkeyInput" rows="3" class="input-field w-full rounded-lg p-3 text-sm font-mono resize-none" placeholder="Paste hexadecimal passkey here..."></textarea>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="md:col-span-2">
+                            <div id="groupPasskey" class="transition-all duration-300">
+                                <label class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide mb-2">Encrypted Payload (Passkey)</label>
+                                <textarea id="passkeyInput" rows="3" class="input-field w-full rounded-lg p-3 text-sm font-mono resize-none" placeholder="Paste hexadecimal passkey here..."></textarea>
+                            </div>
+
+                            <div id="groupManual" class="hidden transition-all duration-300">
+                                <label class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide mb-2">Target Motherboard Serial</label>
+                                <input type="text" id="mbInput" class="input-field w-full rounded-lg p-3 text-sm font-mono" placeholder="e.g. LR0BNTXS">
+                            </div>
                         </div>
 
-                        <div id="groupManual" class="hidden transition-all duration-300">
-                            <label class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide mb-2">Target Motherboard Serial</label>
-                            <input type="text" id="mbInput" class="input-field w-full rounded-lg p-3 text-sm font-mono" placeholder="e.g. LR0BNTXS">
-                        </div>
-
-                        <div>
+                        <div class="md:col-span-1">
                             <label class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide mb-2">License Expiration</label>
                             <input type="text" id="dateInput" value="2099/12/31" disabled class="input-field w-full rounded-lg p-3 text-sm font-mono">
                         </div>
-
-                        <button id="btnGenerate" onclick="generate()" class="btn-primary w-full bg-accent-600 text-white font-medium text-sm py-3 px-6 rounded-lg tracking-wide flex items-center justify-center gap-2 mt-8 shadow-md shadow-accent-500/20">
-                            <svg id="btnSpinner" class="hidden w-4 h-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                            <span id="btnText">Generate Activation Key</span>
-                        </button>
                     </div>
+
+                    <button id="btnGenerate" onclick="generate()" class="btn-primary w-full bg-accent-600 text-white font-medium text-sm py-3 px-6 rounded-lg tracking-wide flex items-center justify-center gap-2 mt-8 shadow-md shadow-accent-500/20">
+                        <svg id="btnSpinner" class="hidden w-4 h-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                        <span id="btnText">Generate Activation Key</span>
+                    </button>
 
                     <div id="result" class="hidden mt-8 animate-fade-in">
                         <div class="bg-gray-50 dark:bg-dark-900/50 rounded-xl overflow-hidden border border-gray-200 dark:border-white/5 shadow-inner">
