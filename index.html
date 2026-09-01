@@ -209,7 +209,7 @@
 
     <script src="assets/js/layout.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
+        (async function loadDashboard() {
             try {
                 const res = await fetch('/api/dashboard');
                 const data = await res.json();
@@ -249,7 +249,7 @@
                 document.getElementById('recentActivityContainer').innerHTML = 
                     '<div class="text-center text-sm text-red-500 py-4">Failed to load data.</div>';
             }
-        });
+        })();
     </script>
 </body>
 </html>

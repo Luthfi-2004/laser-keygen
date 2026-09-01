@@ -127,7 +127,7 @@
 
     <script src="assets/js/layout.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
+        (async function loadHistory() {
             const tbody = document.getElementById('historyTableBody');
             try {
                 const res = await fetch('/api/history');
@@ -178,7 +178,7 @@
                     </tr>
                 `;
             }
-        });
+        })();
     </script>
 </body>
 </html>
