@@ -1,9 +1,12 @@
 {
-  "cleanUrls": true,
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+    { "source": "/generator.html", "destination": "/generator", "permanent": true },
+    { "source": "/history.html", "destination": "/history", "permanent": true }
+  ],
   "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api"
-    }
+    { "source": "/generator", "destination": "/generator.html" },
+    { "source": "/history", "destination": "/history.html" },
+    { "source": "/api/(.*)", "destination": "/api/index.py" }
   ]
 }
