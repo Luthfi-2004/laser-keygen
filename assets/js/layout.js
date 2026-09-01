@@ -1,4 +1,4 @@
-﻿window.initApp = async function(injectSidebar = true) {
+window.initApp = async function(injectSidebar = true) {
     // 1. Inject Sidebar
     if (injectSidebar) {
         const sidebarContainer = document.getElementById('layout-sidebar');
@@ -53,13 +53,17 @@ if (!window._routerAttached) {
     
     document.addEventListener('click', async (e) => {
         const link = e.target.closest('a');
-        // Only intercept local .html links (or root /)
-        if (link && link.href && link.origin === location.origin && (link.pathname.endsWith('.html') || link.pathname === '/')) {
-            // Ignore download links
-            if (link.hasAttribute('download')) return;
+        
+        if (link && link.href && link.origin === location.origin) {
+            // Ignore download links and API paths
+            if (link.hasAttribute('download') || link.pathname.startsWith('/api/')) return;
             
-            e.preventDefault();
-            navigateTo(link.pathname);
+            // Intercept paths that don't have an extension (e.g. /history) or explicitly end with .html
+            const hasExtension = /\.[a-zA-Z0-9]+$/.test(link.pathname);
+            if (!hasExtension || link.pathname.endsWith('.html')) {
+                e.preventDefault();
+                navigateTo(link.pathname);
+            }
         }
     });
 
@@ -70,7 +74,8 @@ if (!window._routerAttached) {
 
 async function navigateTo(path, push = true) {
     // Determine page name from path for sidebar highlighting
-    let pageName = path.split('/').pop().replace('.html', '');
+    let cleanPath = path.replace(/\/$/, ''); // remove trailing slash
+    let pageName = cleanPath.split('/').pop().replace('.html', '');
     if (!pageName || pageName === '') pageName = 'index';
 
     // Update sidebar active state immediately
