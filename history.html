@@ -81,6 +81,18 @@
             .dark .datatable-sorter::before { border-top-color: #a1a1aa !important; opacity: 0.6; }
             .dark .datatable-sorter::after { border-bottom-color: #a1a1aa !important; opacity: 0.6; }
             
+            /* Center Headers */
+            #historyTable th { text-align: center !important; }
+            .datatable-sorter {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding-right: 1.5rem !important; /* space for sort arrows */
+            }
+            .datatable-sorter::before, .datatable-sorter::after {
+                right: 8px !important;
+            }
+            
             /* Fix Pagination */
             .datatable-pagination a {
                 border: 1px solid transparent;
@@ -137,12 +149,12 @@
                     <!-- Data Table -->
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400" id="historyTable">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-dark-900/50 dark:text-gray-400 border-b border-gray-200 dark:border-white/10">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-dark-900/50 dark:text-gray-400 border-b border-gray-200 dark:border-white/10 text-center">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 rounded-tl-lg">Date</th>
-                                    <th scope="col" class="px-6 py-3">Hardware ID</th>
-                                    <th scope="col" class="px-6 py-3">Expiry Date</th>
-                                    <th scope="col" class="px-6 py-3 rounded-tr-lg">Generated Key</th>
+                                    <th scope="col" class="px-4 py-3 rounded-tl-lg">Date</th>
+                                    <th scope="col" class="px-4 py-3">Hardware ID</th>
+                                    <th scope="col" class="px-4 py-3">Expiry Date</th>
+                                    <th scope="col" class="px-4 py-3 rounded-tr-lg">Generated Key</th>
                                 </tr>
                             </thead>
                             <tbody id="historyTableBody">
@@ -188,22 +200,27 @@
 
                 tbody.innerHTML = '';
                 result.data.forEach(item => {
-                    const dateObj = new Date(item.created_at);
+                    let dateStr = item.created_at;
+                    // Supabase timestamp without timezone needs 'Z' to be parsed correctly as UTC
+                    if (!dateStr.endsWith('Z') && !dateStr.includes('+')) {
+                        dateStr += 'Z';
+                    }
+                    const dateObj = new Date(dateStr);
                     const formattedDate = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
                     
                     const tr = document.createElement('tr');
                     tr.className = 'bg-white dark:bg-transparent border-b border-gray-200 dark:border-white/5 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors';
                     tr.innerHTML = `
-                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                        <td class="px-4 py-4 text-center font-medium text-gray-900 dark:text-white whitespace-nowrap">
                             ${formattedDate}
                         </td>
-                        <td class="px-6 py-4 font-mono text-xs">
+                        <td class="px-4 py-4 text-center font-mono text-xs">
                             ${item.mb}
                         </td>
-                        <td class="px-6 py-4">
+                        <td class="px-4 py-4 text-center">
                             ${item.expiry_date}
                         </td>
-                        <td class="px-6 py-4 font-mono text-xs text-gray-400 break-all max-w-xs">
+                        <td class="px-4 py-4 text-center font-mono text-xs text-gray-400 break-all">
                             ${item.passkey}
                         </td>
                     `;
