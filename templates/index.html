@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔐 Laser Keygen (Flask)</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background: #0b1120;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .card {
+            background: #1e293b;
+            border-radius: 24px;
+            padding: 40px;
+            max-width: 620px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            border: 1px solid #334155;
+        }
+        h1 {
+            color: #f1f5f9;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .sub {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 28px;
+            border-left: 3px solid #3b82f6;
+            padding-left: 14px;
+        }
+        label {
+            display: block;
+            color: #cbd5e1;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 18px;
+            margin-bottom: 6px;
+        }
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #f1f5f9;
+            font-size: 15px;
+            transition: 0.2s;
+            font-family: 'Courier New', monospace;
+        }
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+        .helper {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        .btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 24px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn:hover {
+            background: #2563eb;
+            transform: scale(1.01);
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        .result-box {
+            margin-top: 24px;
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid #1e293b;
+            display: none;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #1e293b;
+            font-size: 13px;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        .label {
+            color: #94a3b8;
+        }
+        .value {
+            color: #f1f5f9;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+            text-align: right;
+            max-width: 65%;
+        }
+        .success {
+            color: #4ade80;
+            font-weight: 600;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .error-msg {
+            color: #f87171;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: 500;
+        }
+        .download-link {
+            display: inline-block;
+            margin-top: 12px;
+            background: #22c55e;
+            color: #0f172a;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: 0.2s;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: center;
+        }
+        .download-link:hover {
+            background: #16a34a;
+        }
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .mode-toggle button {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: #0f172a;
+            color: #94a3b8;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+        }
+        .mode-toggle button.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .debug {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 8px;
+            word-break: break-all;
+        }
+        footer {
+            margin-top: 24px;
+            text-align: center;
+            color: #475569;
+            font-size: 12px;
+            border-top: 1px solid #1e293b;
+            padding-top: 16px;
+        }
+        .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid #3b82f6;
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔐 Laser Keygen</h1>
+        <div class="sub">Generate <code>serial.dat</code> dengan backend Flask (Akurat!)</div>
+
+        <div class="mode-toggle">
+            <button id="modePasskey" class="active" onclick="setMode('passkey')">🔑 Dari PASSKEY</button>
+            <button id="modeManual" onclick="setMode('manual')">🖥️ Manual (MB)</button>
+        </div>
+
+        <div id="groupPasskey">
+            <label>📌 Tempel PASSKEY</label>
+            <textarea id="passkeyInput" placeholder="Contoh: 3FADFC599A071FE6...">3FADFC599A071FE6CD3C8F313F0310C4E109A26E222514276576E3F11DFC2AD8</textarea>
+            <div class="helper">Akan otomatis mendeteksi Motherboard ID dari PASSKEY</div>
+        </div>
+
+        <div id="groupManual" style="display:none;">
+            <label>🖥️ Motherboard Serial Number</label>
+            <input type="text" id="mbInput" placeholder="Contoh: LR0BNTXS" value="LR0BNTXS">
+            <div class="helper">Dapatkan dari <code>wmic baseboard get serialnumber</code></div>
+        </div>
+
+        <label>📅 Tanggal Kadaluwarsa</label>
+        <input type="text" id="dateInput" placeholder="YYYY/MM/DD" value="2099/12/31">
+        <div class="helper">Format: <code>Tahun/Bulan/Hari</code> (contoh: 2099/12/31)</div>
+
+        <button class="btn" onclick="generate()" id="btnGenerate">⚡ Generate & Download serial.dat</button>
+
+        <div id="result" class="result-box">
+            <div class="result-item"><span class="label">Motherboard ID</span><span class="value" id="displayMb">-</span></div>
+            <div class="result-item"><span class="label">Tanggal</span><span class="value" id="displayDate">-</span></div>
+            <div class="result-item"><span class="label">PASSKEY (Hex)</span><span class="value" id="displayPasskey">-</span></div>
+            <div id="matchStatus" class="success"></div>
+            <div id="errorStatus" class="error-msg"></div>
+            <div id="debugInfo" class="debug"></div>
+            <a id="downloadBtn" class="download-link" style="display:none;">⬇️ Download serial.dat</a>
+        </div>
+        <footer>Powered by Flask • AES-128 CBC • PKCS7</footer>
+    </div>
+
+    <script>
+        let currentMode = 'passkey';
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('modePasskey').className = (mode === 'passkey') ? 'active' : '';
+            document.getElementById('modeManual').className = (mode === 'manual') ? 'active' : '';
+            document.getElementById('groupPasskey').style.display = (mode === 'passkey') ? 'block' : 'none';
+            document.getElementById('groupManual').style.display = (mode === 'manual') ? 'block' : 'none';
+            // Reset result
+            document.getElementById('result').style.display = 'none';
+        }
+
+        async function generate() {
+            const btn = document.getElementById('btnGenerate');
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('errorStatus');
+            const statusDiv = document.getElementById('matchStatus');
+            const downloadBtn = document.getElementById('downloadBtn');
+
+            // Reset UI
+            errorDiv.textContent = '';
+            statusDiv.textContent = '';
+            resultDiv.style.display = 'none';
+            downloadBtn.style.display = 'none';
+
+            // Buat payload
+            const payload = {};
+            const date = document.getElementById('dateInput').value.trim();
+
+            if (!date.match(/^\d{4}\/\d{2}\/\d{2}$/)) {
+                alert('Format tanggal salah! Gunakan YYYY/MM/DD (contoh: 2099/12/31)');
+                return;
+            }
+            payload.date = date;
+
+            if (currentMode === 'passkey') {
+                const passkey = document.getElementById('passkeyInput').value.trim().toUpperCase();
+                if (!passkey) {
+                    alert('Tempel PASSKEY dulu!');
+                    return;
+                }
+                payload.passkey = passkey;
+            } else {
+                const mb = document.getElementById('mbInput').value.trim();
+                if (!mb) {
+                    alert('Motherboard ID harus diisi!');
+                    return;
+                }
+                payload.mb = mb;
+            }
+
+            // Loading state
+            btn.innerHTML = '<span class="spinner"></span> Generating...';
+            btn.disabled = true;
+
+            try {
+                // Panggil API /download
+                const response = await fetch('/download', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    // Sukses download file
+                    const blob = await response.blob();
+                    const url = URL.createObjectURL(blob);
+
+                    // Ambil header untuk info tambahan (jika ada) atau kita panggil /generate dulu
+                    // Karena kita mau tampilkan info MB & PASSKEY Hex, kita panggil /generate dulu
+                    const infoResponse = await fetch('/generate', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    const info = await infoResponse.json();
+
+                    if (info.error) {
+                        errorDiv.textContent = '❌ ' + info.error;
+                        resultDiv.style.display = 'block';
+                        return;
+                    }
+
+                    // Tampilkan hasil
+                    document.getElementById('displayMb').textContent = info.mb;
+                    document.getElementById('displayDate').textContent = info.date;
+                    document.getElementById('displayPasskey').textContent = info.passkey_hex;
+                    statusDiv.textContent = '✅ File serial.dat siap didownload!';
+                    statusDiv.style.color = '#4ade80';
+                    resultDiv.style.display = 'block';
+
+                    // Siapkan tombol download
+                    downloadBtn.href = url;
+                    downloadBtn.download = 'serial.dat';
+                    downloadBtn.textContent = '⬇️ Download serial.dat (' + blob.size + ' bytes)';
+                    downloadBtn.style.display = 'block';
+
+                } else {
+                    // Error dari server
+                    const err = await response.json();
+                    errorDiv.textContent = '❌ ' + (err.error || 'Terjadi kesalahan');
+                    resultDiv.style.display = 'block';
+                }
+            } catch (e) {
+                errorDiv.textContent = '❌ Gagal terhubung ke server. Pastikan Flask berjalan (python app.py). Error: ' + e.message;
+                resultDiv.style.display = 'block';
+            } finally {
+                btn.innerHTML = '⚡ Generate & Download serial.dat';
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
