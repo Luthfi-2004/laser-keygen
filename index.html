@@ -253,7 +253,7 @@
             } catch (err) {
                 console.error("Dashboard fetch error:", err);
                 document.getElementById('recentActivityContainer').innerHTML = 
-                    '<div class="text-center text-sm text-red-500 py-4">Failed to load data.</div>';
+                    `<div class="text-center text-sm text-red-500 py-4">Failed to load data: ${err.message}</div>`;
             }
         })();
     </script>

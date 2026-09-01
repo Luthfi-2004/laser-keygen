@@ -1,4 +1,4 @@
-﻿from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
@@ -108,10 +108,9 @@ def catch_all(path):
         try:
             # Get latest 3 activities
             recent = supabase.table('activations').select('*').order('created_at', desc=True).limit(3).execute()
-            # Since Supabase python client doesn't support easy count(*) without exact match, 
-            # we'll fetch ID only and count in python for a small scale app (or use count=exact)
-            count_res = supabase.table('activations').select('id', count='exact').execute()
-            total_count = count_res.count if hasattr(count_res, 'count') and count_res.count is not None else len(count_res.data)
+            # Fetch count using select('*') to avoid assuming 'id' column exists
+            count_res = supabase.table('activations').select('*', count='exact').limit(1).execute()
+            total_count = count_res.count if hasattr(count_res, 'count') and count_res.count is not None else 0
             
             return jsonify({
                 'total': total_count,
@@ -119,7 +118,9 @@ def catch_all(path):
                 'status': 'Online'
             })
         except Exception as e:
-            return jsonify({'error': str(e)}), 500
+            import traceback
+            traceback.print_exc()
+            return jsonify({'error': f'Database error: {str(e)}'}), 500
 
     return jsonify({'error': 'Endpoint Not Found', 'path': path}), 404
 
