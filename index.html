@@ -1,9 +1,9 @@
 ﻿<!DOCTYPE html>
-<html lang="id" class="dark">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laser Keygen [UNDERGROUND]</title>
+    <title>Laser Keygen System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,129 +11,177 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        mono: ['Fira Code', 'Courier New', 'monospace'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Menlo', 'monospace'],
                     },
                     colors: {
-                        brand: {
-                            500: '#ff0000',
-                            600: '#cc0000',
-                            900: '#330000',
+                        dark: {
+                            900: '#09090b',
+                            800: '#18181b',
+                            700: '#27272a',
+                        },
+                        accent: {
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
+                        'slide-up': 'slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '100%': { transform: 'translateY(0)', opacity: '1' },
                         }
                     }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Fira Code', monospace; background-color: #050505; color: #ff3333; }
-        .glass-panel {
-            background: rgba(10, 0, 0, 0.8);
-            border: 1px solid #550000;
-            box-shadow: 0 0 30px rgba(255, 0, 0, 0.2), inset 0 0 20px rgba(255, 0, 0, 0.05);
+        body { 
+            background-color: #09090b; 
+            color: #fafafa;
+            background-image: radial-gradient(circle at 50% 0%, #1e1e24 0%, transparent 50%);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
-        .input-glass {
-            background: rgba(0, 0, 0, 0.9);
-            border: 1px solid #550000;
-            color: #ff5555;
+        .panel {
+            background: rgba(24, 24, 27, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .input-field {
+            background: rgba(9, 9, 11, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #e4e4e7;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6, 0 0 15px rgba(59, 130, 246, 0.1);
+            background: #09090b;
+        }
+        .input-field:disabled {
+            background: rgba(39, 39, 42, 0.3);
+            color: #71717a;
+            cursor: not-allowed;
+            border-color: transparent;
+        }
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
             transition: all 0.3s ease;
         }
-        .input-glass:focus {
-            outline: none;
-            border-color: #ff0000;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+            transform: skewX(-20deg);
+            transition: all 0.5s ease;
         }
-        .input-glass:disabled {
-            background: rgba(30, 0, 0, 0.5);
-            color: #883333;
-            cursor: not-allowed;
-            border-color: #330000;
+        .btn-primary:hover::after {
+            left: 150%;
         }
-        .glitch-text {
-            text-shadow: 2px 0 red, -2px 0 blue;
-            animation: glitch 1s infinite alternate;
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px -10px rgba(59, 130, 246, 0.5);
         }
-        @keyframes glitch {
-            0% { text-shadow: 2px 0 red, -2px 0 blue; }
-            20% { text-shadow: -2px 0 red, 2px 0 blue; }
-            40% { text-shadow: 2px 0 red, -2px 0 blue; }
-            60% { text-shadow: -2px 0 red, 2px 0 blue; }
-            80% { text-shadow: 2px 0 red, -2px 0 blue; }
-            100% { text-shadow: -2px 0 red, 2px 0 blue; }
+        .btn-primary:active {
+            transform: translateY(1px);
         }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #550000; }
-        ::-webkit-scrollbar-thumb:hover { background: #ff0000; }
+        .glass-result {
+            background: linear-gradient(145deg, rgba(39, 39, 42, 0.4), rgba(24, 24, 27, 0.4));
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #52525b; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4 selection:bg-brand-500 selection:text-white bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]">
-    <div class="glass-panel w-full max-w-2xl rounded-lg p-8 md:p-10 relative overflow-hidden">
+<body class="min-h-screen flex items-center justify-center p-4 selection:bg-accent-500 selection:text-white">
+    
+    <div class="panel w-full max-w-xl rounded-2xl p-8 md:p-10 relative overflow-hidden animate-slide-up">
         
-        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-50"></div>
+        <!-- Decorative Glow -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-32 bg-accent-500 rounded-full blur-[80px] opacity-20 pointer-events-none animate-pulse-slow"></div>
 
         <div class="relative z-10">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl md:text-4xl font-bold text-red-600 mb-2 glitch-text uppercase tracking-widest">
-                    LASER_KEYGEN // ROOT
+            <div class="mb-10 text-center md:text-left border-b border-white/10 pb-6">
+                <h1 class="text-2xl md:text-3xl font-semibold tracking-tight text-white mb-2">
+                    License System
                 </h1>
-                <p class="text-red-900 text-sm font-medium tracking-wide uppercase">UNAUTHORIZED ACCESS RESTRICTED</p>
+                <p class="text-zinc-400 text-sm font-medium tracking-wide">SECURE KEY GENERATION PLATFORM</p>
             </div>
 
-            <div class="flex p-1 bg-black/80 rounded mb-8 border border-red-900/50">
-                <button id="modePasskey" onclick="setMode('passkey')" class="flex-1 py-2 text-sm font-bold rounded-sm transition-all duration-300 bg-red-800 text-black shadow-[0_0_15px_rgba(255,0,0,0.4)]">
-                    [ PASSKEY_DECRYPT ]
+            <div class="flex p-1 bg-dark-900 rounded-lg mb-8 border border-white/5">
+                <button id="modePasskey" onclick="setMode('passkey')" class="flex-1 py-2.5 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 bg-zinc-800 text-white shadow-sm border border-white/10">
+                    PASSKEY DECRYPT
                 </button>
-                <button id="modeManual" onclick="setMode('manual')" class="flex-1 py-2 text-sm font-bold rounded-sm transition-all duration-300 text-red-900 hover:text-red-500">
-                    [ MANUAL_OVERRIDE ]
+                <button id="modeManual" onclick="setMode('manual')" class="flex-1 py-2.5 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 text-zinc-500 hover:text-zinc-300">
+                    MANUAL OVERRIDE
                 </button>
             </div>
 
             <div class="space-y-6">
                 <div id="groupPasskey" class="transition-all duration-300">
-                    <label class="block text-xs font-bold text-red-700 uppercase tracking-wider mb-2">> INJECT_PASSKEY_PAYLOAD</label>
-                    <textarea id="passkeyInput" rows="3" class="input-glass w-full p-4 text-sm resize-none" placeholder="AWAITING HEX DUMP..."></textarea>
+                    <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2">Encrypted Payload (Passkey)</label>
+                    <textarea id="passkeyInput" rows="3" class="input-field w-full rounded-lg p-3 text-sm font-mono resize-none" placeholder="Paste hexadecimal passkey here..."></textarea>
                 </div>
 
                 <div id="groupManual" class="hidden transition-all duration-300">
-                    <label class="block text-xs font-bold text-red-700 uppercase tracking-wider mb-2">> TARGET_MOTHERBOARD_ID</label>
-                    <input type="text" id="mbInput" class="input-glass w-full p-4 text-sm" placeholder="e.g. LR0BNTXS">
+                    <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2">Target Motherboard Serial</label>
+                    <input type="text" id="mbInput" class="input-field w-full rounded-lg p-3 text-sm font-mono" placeholder="e.g. LR0BNTXS">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-red-700 uppercase tracking-wider mb-2">> FORCED_EXPIRATION_DATE (LOCKED)</label>
-                    <input type="text" id="dateInput" value="2099/12/31" disabled class="input-glass w-full p-4 text-sm">
+                    <label class="block text-[11px] font-semibold text-zinc-400 uppercase tracking-widest mb-2">License Expiration</label>
+                    <input type="text" id="dateInput" value="2099/12/31" disabled class="input-field w-full rounded-lg p-3 text-sm font-mono">
                 </div>
 
-                <button id="btnGenerate" onclick="generate()" class="w-full bg-red-900 hover:bg-red-700 text-black hover:text-white font-bold py-4 px-6 border border-red-600 hover:border-red-400 rounded-sm uppercase tracking-widest transition-all duration-300 flex items-center justify-center gap-2 mt-8 shadow-[0_0_10px_rgba(255,0,0,0.2)] hover:shadow-[0_0_20px_rgba(255,0,0,0.6)]">
-                    <svg id="btnSpinner" class="hidden w-5 h-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    <span id="btnText">> EXECUTE_EXPLOIT</span>
+                <button id="btnGenerate" onclick="generate()" class="btn-primary w-full bg-accent-600 text-white font-medium text-sm py-3.5 px-6 rounded-lg tracking-wide flex items-center justify-center gap-2 mt-8">
+                    <svg id="btnSpinner" class="hidden w-4 h-4 animate-spin text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <span id="btnText">GENERATE LICENSE</span>
                 </button>
             </div>
 
-            <div id="result" class="hidden mt-8">
-                <div class="bg-black/90 border border-red-800 p-1">
-                    <div class="p-3 border-b border-red-900/50 flex justify-between items-center bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(255,0,0,0.05)_10px,rgba(255,0,0,0.05)_20px)]">
-                        <span class="text-xs text-red-700 font-bold uppercase tracking-wider">> TARGET_MB</span>
-                        <span id="displayMb" class="text-sm font-mono text-red-500 font-bold">-</span>
+            <div id="result" class="hidden mt-8 animate-fade-in">
+                <div class="glass-result rounded-xl overflow-hidden shadow-inner">
+                    <div class="p-4 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
+                        <span class="text-[11px] text-zinc-500 font-semibold uppercase tracking-widest">Hardware ID</span>
+                        <span id="displayMb" class="text-sm font-mono text-zinc-200 font-medium">-</span>
                     </div>
-                    <div class="p-3 border-b border-red-900/50 flex justify-between items-center bg-[repeating-linear-gradient(-45deg,transparent,transparent_10px,rgba(255,0,0,0.05)_10px,rgba(255,0,0,0.05)_20px)]">
-                        <span class="text-xs text-red-700 font-bold uppercase tracking-wider">> VALID_UNTIL</span>
-                        <span id="displayDate" class="text-sm font-mono text-red-500 font-bold">-</span>
+                    <div class="p-4 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
+                        <span class="text-[11px] text-zinc-500 font-semibold uppercase tracking-widest">Valid Until</span>
+                        <span id="displayDate" class="text-sm font-mono text-zinc-200 font-medium">-</span>
                     </div>
-                    <div class="p-4 bg-black">
-                        <span class="text-xs text-red-700 font-bold uppercase tracking-wider block mb-2">> SERIAL_DUMP [HEX]</span>
-                        <div id="displayPasskey" class="text-xs font-mono text-red-400 break-all bg-gray-950 p-4 border border-red-900/30">
+                    <div class="p-5">
+                        <span class="text-[11px] text-zinc-500 font-semibold uppercase tracking-widest block mb-3">Generated Serial (DAT)</span>
+                        <div id="displayPasskey" class="text-xs font-mono text-zinc-400 break-all bg-dark-900 p-4 rounded-lg border border-white/5">
                             -
                         </div>
                     </div>
                 </div>
 
-                <div id="errorStatus" class="hidden mt-4 p-4 bg-red-950 border border-red-600 text-red-400 text-sm font-bold text-center"></div>
-                <div id="matchStatus" class="hidden mt-4 text-center text-sm font-bold text-red-500 uppercase tracking-widest glitch-text"></div>
+                <div id="errorStatus" class="hidden mt-6 p-4 bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium rounded-lg text-center"></div>
+                <div id="matchStatus" class="hidden mt-5 text-center text-xs font-semibold text-accent-500 tracking-widest uppercase"></div>
                 
-                <a id="downloadBtn" class="hidden mt-4 w-full bg-black hover:bg-red-950 border border-red-700 hover:border-red-500 text-red-600 hover:text-red-400 font-bold py-3.5 transition-all duration-300 text-center flex items-center justify-center gap-2 shadow-[inset_0_0_10px_rgba(255,0,0,0.2)] hover:shadow-[inset_0_0_20px_rgba(255,0,0,0.4)]">
-                    <span>[ DOWNLOAD_SERIAL.DAT ]</span>
+                <a id="downloadBtn" class="hidden mt-6 w-full bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 hover:text-white font-medium rounded-lg py-3 transition-colors duration-200 text-sm text-center flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4 opacity-70" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <span>Download serial.dat</span>
                 </a>
             </div>
         </div>
@@ -147,14 +195,17 @@
             const btnPasskey = document.getElementById('modePasskey');
             const btnManual = document.getElementById('modeManual');
             
+            const activeClass = 'flex-1 py-2.5 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 bg-zinc-800 text-white shadow-sm border border-white/10';
+            const inactiveClass = 'flex-1 py-2.5 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 text-zinc-500 hover:text-zinc-300';
+
             if (mode === 'passkey') {
-                btnPasskey.className = 'flex-1 py-2 text-sm font-bold rounded-sm transition-all duration-300 bg-red-800 text-black shadow-[0_0_15px_rgba(255,0,0,0.4)]';
-                btnManual.className = 'flex-1 py-2 text-sm font-bold rounded-sm transition-all duration-300 text-red-900 hover:text-red-500';
+                btnPasskey.className = activeClass;
+                btnManual.className = inactiveClass;
                 document.getElementById('groupPasskey').classList.remove('hidden');
                 document.getElementById('groupManual').classList.add('hidden');
             } else {
-                btnManual.className = 'flex-1 py-2 text-sm font-bold rounded-sm transition-all duration-300 bg-red-800 text-black shadow-[0_0_15px_rgba(255,0,0,0.4)]';
-                btnPasskey.className = 'flex-1 py-2 text-sm font-bold rounded-sm transition-all duration-300 text-red-900 hover:text-red-500';
+                btnManual.className = activeClass;
+                btnPasskey.className = inactiveClass;
                 document.getElementById('groupManual').classList.remove('hidden');
                 document.getElementById('groupPasskey').classList.add('hidden');
             }
@@ -191,14 +242,14 @@
             if (currentMode === 'passkey') {
                 const passkey = document.getElementById('passkeyInput').value.trim().toUpperCase();
                 if (!passkey) {
-                    showError('FATAL: PASSKEY_PAYLOAD_MISSING');
+                    showError('Input Required: Please provide the Passkey payload.');
                     return;
                 }
                 payload.passkey = passkey;
             } else {
                 const mb = document.getElementById('mbInput').value.trim();
                 if (!mb) {
-                    showError('FATAL: TARGET_MB_UNDEFINED');
+                    showError('Input Required: Motherboard Serial is required.');
                     return;
                 }
                 payload.mb = mb;
@@ -206,7 +257,7 @@
 
             btn.disabled = true;
             btnSpinner.classList.remove('hidden');
-            btnText.textContent = '> COMPILING...';
+            btnText.textContent = 'PROCESSING';
 
             try {
                 const infoResponse = await fetch('/api/generate', {
@@ -226,7 +277,7 @@
                 document.getElementById('displayDate').textContent = info.date;
                 document.getElementById('displayPasskey').textContent = info.passkey_hex;
                 
-                statusDiv.textContent = 'SYSTEM_COMPROMISED // LICENSE_GENERATED';
+                statusDiv.textContent = 'License generation completed';
                 statusDiv.classList.remove('hidden');
                 resultDiv.classList.remove('hidden');
 
@@ -243,14 +294,14 @@
                         passkey_hex: info.passkey_hex,
                         date: info.date
                     })
-                }).catch(e => console.warn('TRACE_FAILED:', e));
+                }).catch(e => console.warn('Sync failed:', e));
 
             } catch (e) {
-                showError('ERROR: ' + e.message);
+                showError('Operation Failed: ' + e.message);
             } finally {
                 btn.disabled = false;
                 btnSpinner.classList.add('hidden');
-                btnText.textContent = '> EXECUTE_EXPLOIT';
+                btnText.textContent = 'GENERATE LICENSE';
             }
         }
 
