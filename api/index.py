@@ -36,7 +36,7 @@ def decrypt_passkey(passkey_hex):
     plaintext = unpad(cipher.decrypt(ciphertext), AES.block_size)
     return plaintext.decode('ascii')
 
-@app.route('/generate', methods=['POST'])
+@app.route('/api/generate', methods=['POST'])
 def generate():
     data = request.get_json()
     if not data:
@@ -69,7 +69,7 @@ def generate():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/download', methods=['POST'])
+@app.route('/api/download', methods=['POST'])
 def download():
     data = request.get_json()
     if not data:
@@ -98,7 +98,7 @@ def download():
         download_name='serial.dat'
     )
 
-@app.route('/save', methods=['POST'])
+@app.route('/api/save', methods=['POST'])
 def save():
     if not supabase:
         return jsonify({'error': 'Supabase not configured'}), 500
