@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🔐 Laser Keygen</title>
     <style>
-        /* (CSS sama seperti sebelumnya, tidak diubah) */
+        /* Gaya CSS sama seperti sebelumnya, tidak diubah */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #0b1120; font-family: 'Segoe UI', Tahoma, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
         .card { background: #1e293b; border-radius: 24px; padding: 40px; max-width: 620px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.7); border: 1px solid #334155; }
@@ -40,7 +40,7 @@
 <body>
 <div class="card">
     <h1>🔐 Laser Keygen</h1>
-    <div class="sub">Generate <code>serial.dat</code> dengan backend Flask</div>
+    <div class="sub">Generate <code>serial.dat</code> — Full Stack di Vercel</div>
 
     <div class="mode-toggle">
         <button id="modePasskey" class="active" onclick="setMode('passkey')">🔑 Dari PASSKEY</button>
@@ -74,12 +74,12 @@
         <div id="debugInfo" class="debug"></div>
         <a id="downloadBtn" class="download-link" style="display:none;">⬇️ Download serial.dat</a>
     </div>
-    <footer>Powered by Flask • AES-128 CBC • PKCS7</footer>
+    <footer>Powered by Flask • Vercel • Supabase</footer>
 </div>
 
 <script>
-    // Ganti URL ini dengan URL backend Flask Anda setelah deploy ke Render
-    const BACKEND_URL = 'https://laser-keygen-backend.onrender.com';
+    // ✅ SEKARANG PAKAI RELATIVE PATH, KARENA SATU DOMAIN
+    const BACKEND_URL = '';  // kosong, karena satu domain dengan frontend
 
     let currentMode = 'passkey';
 
@@ -133,7 +133,7 @@
 
         try {
             // 1. Download file
-            const downloadResponse = await fetch(`${BACKEND_URL}/download`, {
+            const downloadResponse = await fetch(`/api/download`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -150,7 +150,7 @@
             const url = URL.createObjectURL(blob);
 
             // 2. Ambil info dari /generate
-            const infoResponse = await fetch(`${BACKEND_URL}/generate`, {
+            const infoResponse = await fetch(`/api/generate`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -175,7 +175,7 @@
             downloadBtn.style.display = 'block';
 
             // 3. Simpan ke Supabase via backend
-            const saveResponse = await fetch(`${BACKEND_URL}/save`, {
+            const saveResponse = await fetch(`/api/save`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
