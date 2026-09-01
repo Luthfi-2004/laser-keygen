@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
+from werkzeug.exceptions import HTTPException
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 import binascii
@@ -9,6 +10,12 @@ from supabase import create_client, Client
 
 app = Flask(__name__)
 CORS(app)
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    if isinstance(e, HTTPException):
+        return jsonify(error=e.description), e.code
+    return jsonify(error=str(e)), 500
 
 PRODUCT_NAME = "LASER MARKING SYSTEM"
 IV_STRING = "%1Az=-@qT"
@@ -42,9 +49,9 @@ def catch_all(path):
         return '', 200
         
     if path == 'api/generate':
-        data = request.get_json()
+        data = request.get_json(silent=True)
         if not data:
-            return jsonify({'error': 'JSON required'}), 400
+            return jsonify({'error': 'Payload tidak valid atau bukan JSON'}), 400
         mb = data.get('mb')
         passkey = data.get('passkey')
         expiry_date = data.get('date', '2099/12/31')
