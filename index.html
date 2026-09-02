@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laser Keygen - Dashboard</title>
-    <link rel="icon" type="image/jpeg" href="/logoIGP.jpg">
+    <link rel="icon" type="image/png" href="/logoIGP-QE.png">
     <script src="assets/vendor/tailwindcss.js"></script>
     <script>
         tailwind.config = {
@@ -100,8 +100,6 @@
         
         .splash-logo-container {
             position: relative;
-            width: 140px;
-            height: 140px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -109,35 +107,28 @@
             animation: float 4s ease-in-out infinite;
         }
 
-        .splash-logo {
-            width: 100px;
-            height: 100px;
-            border-radius: 25%;
-            object-fit: cover;
-            z-index: 10;
-            animation: popIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            box-shadow: 0 0 50px rgba(59, 130, 246, 0.4);
+        .splash-glow {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, transparent 70%);
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+            z-index: 1;
         }
 
-        /* Futuristic rings */
-        .splash-ring {
-            position: absolute;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            top: 0; left: 0; right: 0; bottom: 0;
+        .splash-logo {
+            max-width: 320px;
+            max-height: 140px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            z-index: 10;
+            animation: popIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
-        .splash-ring-1 {
-            border-top-color: #3b82f6;
-            border-bottom-color: #3b82f6;
-            animation: spin-anim 2s linear infinite;
-            filter: drop-shadow(0 0 10px #3b82f6);
-        }
-        .splash-ring-2 {
-            top: -15px; left: -15px; right: -15px; bottom: -15px;
-            border-left-color: #60a5fa;
-            border-right-color: #60a5fa;
-            animation: spin-anim-reverse 3s linear infinite;
-            opacity: 0.6;
+
+        @keyframes pulse-glow {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            100% { transform: scale(1.2); opacity: 1; }
         }
 
         .splash-text {
@@ -182,9 +173,8 @@
     <!-- Splash Screen -->
     <div id="splash-screen">
         <div class="splash-logo-container">
-            <div class="splash-ring splash-ring-1"></div>
-            <div class="splash-ring splash-ring-2"></div>
-            <img src="/logoIGP.jpg" alt="Logo IGP" class="splash-logo">
+            <div class="splash-glow"></div>
+            <img src="/logoIGP-QE.png" alt="Logo IGP" class="splash-logo">
         </div>
         <div class="splash-text">INITIALIZING SYSTEM</div>
     </div>
