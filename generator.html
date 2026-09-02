@@ -184,23 +184,11 @@
                         <p class="text-gray-500 dark:text-zinc-400 text-sm">Create secure activation keys for Laser Marking System.</p>
                     </div>
 
-                    <div class="flex p-1 bg-gray-100 dark:bg-dark-900 rounded-lg mb-8 border border-gray-200 dark:border-white/5">
-                        <button id="modePasskey" onclick="setMode('passkey')" class="flex-1 py-2 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white shadow-sm border border-gray-200 dark:border-white/10">
-                            Passkey Decrypt
-                        </button>
-                        <button id="modeManual" onclick="setMode('manual')" class="flex-1 py-2 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 text-gray-500 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300 border border-transparent">
-                            Manual Override
-                        </button>
-                    </div>
+
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="md:col-span-2">
-                            <div id="groupPasskey" class="transition-all duration-300">
-                                <label class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide mb-2">Encrypted Payload (Passkey)</label>
-                                <textarea id="passkeyInput" rows="3" class="input-field w-full rounded-lg p-3 text-sm font-mono resize-none" placeholder="Paste hexadecimal passkey here..."></textarea>
-                            </div>
-
-                            <div id="groupManual" class="hidden transition-all duration-300">
+                            <div id="groupManual" class="transition-all duration-300">
                                 <label class="block text-xs font-semibold text-gray-600 dark:text-zinc-400 uppercase tracking-wide mb-2">Target Motherboard Serial</label>
                                 <input type="text" id="mbInput" class="input-field w-full rounded-lg p-3 text-sm font-mono" placeholder="e.g. LR0BNTXS">
                             </div>
@@ -260,29 +248,7 @@
     <script src="assets/js/layout.js"></script>
     <script>
 
-        let currentMode = 'passkey';
 
-        function setMode(mode) {
-            currentMode = mode;
-            const btnPasskey = document.getElementById('modePasskey');
-            const btnManual = document.getElementById('modeManual');
-            
-            const activeClass = 'flex-1 py-2 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 bg-white dark:bg-zinc-800 text-gray-900 dark:text-white shadow-sm border border-gray-200 dark:border-white/10';
-            const inactiveClass = 'flex-1 py-2 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 text-gray-500 hover:text-gray-700 dark:text-zinc-500 dark:hover:text-zinc-300 border border-transparent';
-
-            if (mode === 'passkey') {
-                btnPasskey.className = activeClass;
-                btnManual.className = inactiveClass;
-                document.getElementById('groupPasskey').classList.remove('hidden');
-                document.getElementById('groupManual').classList.add('hidden');
-            } else {
-                btnManual.className = activeClass;
-                btnPasskey.className = inactiveClass;
-                document.getElementById('groupManual').classList.remove('hidden');
-                document.getElementById('groupPasskey').classList.add('hidden');
-            }
-            document.getElementById('result').classList.add('hidden');
-        }
 
         async function generate() {
             const btn = document.getElementById('btnGenerate');
@@ -303,21 +269,12 @@
             const date = document.getElementById('dateInput').value.trim();
             payload.date = date;
 
-            if (currentMode === 'passkey') {
-                const passkey = document.getElementById('passkeyInput').value.trim().toUpperCase();
-                if (!passkey) {
-                    showError('Input Required: Please provide the Passkey payload.');
-                    return;
-                }
-                payload.passkey = passkey;
-            } else {
-                const mb = document.getElementById('mbInput').value.trim();
-                if (!mb) {
-                    showError('Input Required: Motherboard Serial is required.');
-                    return;
-                }
-                payload.mb = mb;
+            const mb = document.getElementById('mbInput').value.trim();
+            if (!mb) {
+                showError('Input Required: Motherboard Serial is required.');
+                return;
             }
+            payload.mb = mb;
 
             btn.disabled = true;
             btnSpinner.classList.remove('hidden');

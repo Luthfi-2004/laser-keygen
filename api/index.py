@@ -34,13 +34,7 @@ def encrypt_serial(mb, expiry_date):
     ciphertext = cipher.encrypt(pad(plaintext.encode('ascii'), AES.block_size))
     return ciphertext
 
-def decrypt_passkey(passkey_hex):
-    key = "P45W0RD".encode('ascii').ljust(16, b'\x00')
-    iv = IV_STRING.encode('ascii').ljust(16, b'\x00')
-    cipher = AES.new(key, AES.MODE_CBC, iv)
-    ciphertext = bytes.fromhex(passkey_hex)
-    plaintext = unpad(cipher.decrypt(ciphertext), AES.block_size)
-    return plaintext.decode('ascii')
+
 
 @app.route('/', defaults={'path': ''}, methods=['GET', 'POST'])
 @app.route('/<path:path>', methods=['GET', 'POST'])
@@ -53,20 +47,10 @@ def catch_all(path):
         if not data:
             return jsonify({'error': 'Payload tidak valid atau bukan JSON'}), 400
         mb = data.get('mb')
-        passkey = data.get('passkey')
         expiry_date = data.get('date', '2099/12/31')
 
-        if passkey:
-            try:
-                plaintext = decrypt_passkey(passkey)
-                if '|' not in plaintext:
-                    raise ValueError('Invalid PASSKEY format')
-                mb = plaintext.split('|')[0]
-            except Exception as e:
-                return jsonify({'error': f'Gagal mendekripsi PASSKEY: {str(e)}'}), 400
-
         if not mb:
-            return jsonify({'error': 'MB atau PASSKEY harus diisi'}), 400
+            return jsonify({'error': 'Motherboard Serial harus diisi'}), 400
 
         try:
             # 1. Generate Key
