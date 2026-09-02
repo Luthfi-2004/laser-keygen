@@ -12,12 +12,9 @@ window.initApp = async function(injectSidebar = true) {
             if (newSidebar && currentPage) {
                 const links = newSidebar.querySelectorAll('.nav-link');
                 links.forEach(link => {
-                    link.classList.remove('active', 'text-gray-300');
+                    link.classList.remove('active');
                     if(link.getAttribute('data-page') === currentPage) {
                         link.classList.add('active');
-                        link.classList.remove('text-gray-600');
-                    } else {
-                        link.classList.add('text-gray-600');
                     }
                 });
             }
@@ -81,12 +78,9 @@ async function navigateTo(path, push = true) {
     // Update sidebar active state immediately
     const sidebarLinks = document.querySelectorAll('aside .nav-link');
     sidebarLinks.forEach(l => {
-        l.classList.remove('active', 'text-gray-300');
+        l.classList.remove('active');
         if (l.getAttribute('data-page') === pageName) {
             l.classList.add('active');
-            l.classList.remove('text-gray-600');
-        } else {
-            l.classList.add('text-gray-600');
         }
     });
 
