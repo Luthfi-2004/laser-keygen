@@ -78,58 +78,115 @@
             border-color: rgba(59, 130, 246, 0.3);
         }
 
-        /* Splash Screen */
+        /* Splash Screen - Ultra Premium */
         #splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: #ffffff;
+            background: radial-gradient(circle at center, #18181b 0%, #000000 100%);
             z-index: 99999;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.6s ease-out, visibility 0.6s ease-out;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: center;
         }
-        .dark #splash-screen {
-            background: #09090b;
+        #splash-screen.hide {
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(1.15); /* Cinematic Zoom-in while fading out */
+            filter: blur(10px);
         }
+        
+        .splash-logo-container {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 50px;
+            animation: float 4s ease-in-out infinite;
+        }
+
         .splash-logo {
-            width: 120px;
-            height: 120px;
-            border-radius: 20%;
-            margin-bottom: 40px;
-            animation: pulse-splash 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-            box-shadow: 0 0 40px rgba(59, 130, 246, 0.2);
+            width: 100px;
+            height: 100px;
+            border-radius: 25%;
+            object-fit: cover;
+            z-index: 10;
+            animation: popIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.4);
         }
-        .dark .splash-logo {
-            box-shadow: 0 0 40px rgba(59, 130, 246, 0.5);
-        }
-        .loader-spin {
-            width: 40px;
-            height: 40px;
-            border: 3px solid rgba(0, 0, 0, 0.1);
-            border-left-color: #3b82f6;
+
+        /* Futuristic rings */
+        .splash-ring {
+            position: absolute;
             border-radius: 50%;
-            animation: spin-anim 1s linear infinite;
+            border: 2px solid transparent;
+            top: 0; left: 0; right: 0; bottom: 0;
         }
-        .dark .loader-spin {
-            border: 3px solid rgba(255, 255, 255, 0.1);
-            border-left-color: #3b82f6;
+        .splash-ring-1 {
+            border-top-color: #3b82f6;
+            border-bottom-color: #3b82f6;
+            animation: spin-anim 2s linear infinite;
+            filter: drop-shadow(0 0 10px #3b82f6);
+        }
+        .splash-ring-2 {
+            top: -15px; left: -15px; right: -15px; bottom: -15px;
+            border-left-color: #60a5fa;
+            border-right-color: #60a5fa;
+            animation: spin-anim-reverse 3s linear infinite;
+            opacity: 0.6;
+        }
+
+        .splash-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            letter-spacing: 4px;
+            color: #71717a;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            animation: fadeUp 1s ease-out 0.5s both;
+        }
+        
+        /* Shimmer effect on text */
+        .splash-text::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
+            animation: shimmer 2.5s infinite;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0) rotate(-15deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes fadeUp {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
         }
         @keyframes spin-anim { 100% { transform: rotate(360deg); } }
-        @keyframes pulse-splash {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-        }
+        @keyframes spin-anim-reverse { 100% { transform: rotate(-360deg); } }
+        @keyframes shimmer { 100% { left: 200%; } }
     </style>
 <link href="assets/vendor/simple-datatables.css" rel="stylesheet" type="text/css"><script src="assets/vendor/simple-datatables.js" type="text/javascript"></script></head>
 <body class="bg-gray-50 text-gray-900 dark:bg-dark-900 dark:text-gray-100 flex h-screen overflow-hidden selection:bg-accent-500 selection:text-white transition-colors duration-300">
 
     <!-- Splash Screen -->
     <div id="splash-screen">
-        <img src="/logoIGP.jpg" alt="Logo IGP" class="splash-logo object-cover">
-        <div class="loader-spin"></div>
-        <div class="mt-4 text-xs font-mono tracking-widest text-gray-500 dark:text-gray-400">LOADING SYSTEM...</div>
+        <div class="splash-logo-container">
+            <div class="splash-ring splash-ring-1"></div>
+            <div class="splash-ring splash-ring-2"></div>
+            <img src="/logoIGP.jpg" alt="Logo IGP" class="splash-logo">
+        </div>
+        <div class="splash-text">INITIALIZING SYSTEM</div>
     </div>
 
     <!-- Sidebar Placeholder -->
@@ -259,15 +316,14 @@
                 document.getElementById('recentActivityContainer').innerHTML = 
                     `<div class="text-center text-sm text-red-500 py-4">Failed to load data: ${err.message}</div>`;
             } finally {
-                // Hide splash screen after 1.5s to show the animation
+                // Hide splash screen after 2.5s to fully show the cool animation
                 setTimeout(() => {
                     const splash = document.getElementById('splash-screen');
                     if (splash) {
-                        splash.style.opacity = '0';
-                        splash.style.visibility = 'hidden';
-                        setTimeout(() => splash.remove(), 600);
+                        splash.classList.add('hide');
+                        setTimeout(() => splash.remove(), 800);
                     }
-                }, 1500);
+                }, 2500);
             }
         })();
     </script>
